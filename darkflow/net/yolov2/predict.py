@@ -8,7 +8,7 @@ import json
 #from utils.box import prob_compare2, box_intersection
 from ...utils.box import BoundBox
 from ...cython_utils.cy_yolo2_findboxes import box_constructor
-# import fcntl #改动
+import fcntl
 
 def expit(x):
 	return 1. / (1. + np.exp(-x))
@@ -60,6 +60,8 @@ def postprocess(self, net_out, im, save = True):
 
 	if not save: return imgcv
 
+
+	
 	outfolder = os.path.join(self.FLAGS.imgdir, 'out')
 	img_name = os.path.join(outfolder, os.path.basename(im))
 	if self.FLAGS.json:
@@ -68,25 +70,19 @@ def postprocess(self, net_out, im, save = True):
 		with open(textFile, 'w') as f:
 			f.write(textJSON)
 		return
+
 	cv2.imwrite(img_name, imgcv)
-	# 原版代码，未加入文件锁
-
-
-
-
-'''
+	'''
 	outfolder = os.path.join(self.FLAGS.imgdir, 'out')
 	img_name = os.path.join(outfolder, os.path.basename(im))
 	if self.FLAGS.json:
-		textJSON = json.dumps(resultsForJSON)
-		textFile = os.path.splitext(img_name)[0] + ".json"
-		with open(textFile, 'w') as f:
-			f.write(textJSON)
-
-	fp = open(img_name[:-3]+'lock', 'w')
+		testJSON = json.dumps(resultsForJSON)
+		testFile = os.path.splitext(img_name)[0] + ".json"
+		with open(testFile, 'w') as f:
+			f.write(testJSON)
+	fp = open(img_name[:-3]+'lock','w')
 	fcntl.flock(fp, fcntl.LOCK_EX)
 	cv2.imwrite(img_name, imgcv)
 	fcntl.flock(fp, fcntl.LOCK_UN)
 	return
-'''
-
+	'''

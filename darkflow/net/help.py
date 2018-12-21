@@ -8,11 +8,8 @@ import numpy as np
 import sys
 import cv2
 import os
-from flask import Flask, render_template, Response
 
 old_graph_msg = 'Resolving old graph def {} (no guarantee)'
-
-
 
 def build_train_op(self):
     self.framework.loss(self.out)
@@ -70,7 +67,8 @@ def _get_fps(self, frame):
 
 def camera(self):
     file = self.FLAGS.demo
-    SaveVideo = self.FLAGS.saveVideo   
+    SaveVideo = self.FLAGS.saveVideo
+    
     if file == 'camera':
         file = 0
     else:
