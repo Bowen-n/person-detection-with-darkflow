@@ -3,12 +3,9 @@ import math
 import cv2
 import os
 import json
-#from scipy.special import expit
-#from utils.box import BoundBox, box_iou, prob_compare
-#from utils.box import prob_compare2, box_intersection
 from ...utils.box import BoundBox
 from ...cython_utils.cy_yolo2_findboxes import box_constructor
-import fcntl
+
 
 def expit(x):
 	return 1. / (1. + np.exp(-x))
@@ -72,17 +69,4 @@ def postprocess(self, net_out, im, save = True):
 		return
 
 	cv2.imwrite(img_name, imgcv)
-	'''
-	outfolder = os.path.join(self.FLAGS.imgdir, 'out')
-	img_name = os.path.join(outfolder, os.path.basename(im))
-	if self.FLAGS.json:
-		testJSON = json.dumps(resultsForJSON)
-		testFile = os.path.splitext(img_name)[0] + ".json"
-		with open(testFile, 'w') as f:
-			f.write(testJSON)
-	fp = open(img_name[:-3]+'lock','w')
-	fcntl.flock(fp, fcntl.LOCK_EX)
-	cv2.imwrite(img_name, imgcv)
-	fcntl.flock(fp, fcntl.LOCK_UN)
-	return
-	'''
+
